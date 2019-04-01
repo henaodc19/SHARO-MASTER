@@ -1,0 +1,25 @@
+<div class="container">
+	<div>
+    <div class="col-md-9">
+        <button type="button" class="btn btn-primary"  (click) = "editarAbonoCompra()" [routerLink]="['/compra-abono',cre.id]">Guardar</button>
+        <button type="button" class="btn btn-success" [routerLink]="['/compra-abono',cre.id]">Regresar</button>
+        <h3>Propietario: {{cre.nombre}} {{cre.apellido}}</h3>
+    </div>
+	<table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Descripcion</th>
+        <th>Valor compra</th>
+		<th>Valor Abono</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+                <td><input type="email" class="form-control" [(ngModel)] = "abonoCompra.descripcion"/></td>
+                <td><input type="email" class="form-control" [(ngModel)] = "abonoCompra.vlr_compra"/></td>
+                <td><input type="email" class="form-control" [(ngModel)] = "abonoCompra.vlr_abono"/></td>
+            </tr>  
+                                
+      </tbody>
+    </table>
+</div>

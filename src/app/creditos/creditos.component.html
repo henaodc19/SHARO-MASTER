@@ -1,0 +1,140 @@
+  <div class="container">
+      <div class="row">
+          <div class="table-responsive">
+              <div class="col-md-8">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+                  <span class="glyphicon glyphicon-user"></span>  
+                  Crear cliente</button>
+              </div>
+              <div class="col-md-4">
+                  <div class="form-inline">
+                        <div class="form-group">
+                          <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="searchText">
+                        </div>
+                  </div>
+              </div>
+                <table class="table table-striped table-hover" id="datos">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Apellido</th>
+                      <th>Cedula</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let persona of creditos | filter : searchText">
+                          <tr>
+                              <td role="button" [routerLink]="['/compra-abono', persona.id]">{{persona.nombre}}</td>
+                              <td>{{persona.apellido}}</td>
+                              <td>{{persona.identificacion}}</td>
+                              <button type="button" class="btn btn-info" [routerLink]="['/creditos/edit', persona.id]" (click) = "editarCredito()">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                              </button>
+                          </tr> 
+                      </ng-container>
+                      
+                    </tbody>
+                  </table>
+        </div> 
+      </div>
+  </div>
+  
+  <!-- Modal para crear nuevo credito -->
+  <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Crear nuevo credito</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-5">
+              <label>Nombres
+                  <input type="email" class="form-control" [(ngModel)] = "credito.nombre"/>
+               </label>
+            </div>
+            <div class="col-md-7">
+              <label>Apellidos
+                  <input type="email" class="form-control" [(ngModel)] = "credito.apellido"/>
+              </label>
+            </div>
+            <br>
+            <div class="col-md-5">
+              <label>Identificacion
+                  <input type="email" class="form-control" [(ngModel)] = "credito.identificacion"/>
+              </label>
+            </div>
+            <div class="col-md-7">
+              <label>Telefono o celular
+                  <input type="email" class="form-control" [(ngModel)] = "credito.numero"/>
+               </label>
+            </div>
+            <div class="col-md-5">
+              <label>Direccion residencia
+                  <input type="email" class="form-control" [(ngModel)] = "credito.direccion"/>
+              </label>            
+            </div>
+            <div class="col-md-7">
+              <label>Saldo credito
+                  <input type="email" class="form-control" readonly="readonly" placeholder="0" [(ngModel)] = "credito.saldoCredito"/>
+              </label>            
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click) = "guardarCredito()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Modal para editar credito -->
+  <div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Crear nuevo credito</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-5">
+              <label>Nombres
+                  <input type="email" class="form-control" [(ngModel)] = "edit.nombre"/>
+               </label>
+            </div>
+            <div class="col-md-7">
+              <label>Apellidos
+                  <input type="email" class="form-control" [(ngModel)] = "edit.apellido"/>
+              </label>
+            </div>
+            <br>
+            <div class="col-md-5">
+              <label>Identificacion
+                  <input type="email" class="form-control" [(ngModel)] = "edit.identificacion"/>
+              </label>
+            </div>
+            <div class="col-md-7">
+              <label>Telefono o celular
+                  <input type="email" class="form-control" [(ngModel)] = "edit.numero"/>
+               </label>
+            </div>
+            <div class="col-md-5">
+              <label>Direccion residencia
+                  <input type="email" class="form-control" [(ngModel)] = "credito.direccion"/>
+              </label>            
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click) = "guardarCredito()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+ 
+
+  

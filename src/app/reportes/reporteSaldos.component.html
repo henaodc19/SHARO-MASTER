@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+      <div class="table-responsive">
+          <!-- <div class="col-md-8">
+              <button type="button" class="btn btn-primary" (click)= "prueba()">
+              <span class="glyphicon glyphicon-user"></span>  
+              Filtrar</button>
+          </div>
+          <br> -->
+          <div class="col-md-8">
+              <div class="form-inline">
+                    <div class="form-group">
+                      Fecha inicial <input type="date" class="form-control"  [(ngModel)]="fecha_ini">
+                      Fecha final <input type="date" class="form-control"  [(ngModel)]="fecha_fin">
+                      <button type="button" class="btn btn-primary" (click)= "prueba()">
+                          <span class="glyphicon glyphicon-user"></span>  
+                      Filtrar</button>
+                    </div>
+              </div>
+          </div>
+            <table class="table table-striped table-hover" id="datos">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Cedula</th>
+                  <th>Direccion</th>
+                  <th>Numero</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let persona of pba2 | filter : searchText">
+                      <tr>
+                          <td role="button" [routerLink]="['/compra-abono', persona.id]">{{persona.nombre}}</td>
+                          <td>{{persona.apellido}}</td>
+                          <td>{{persona.identificacion}}</td>
+                          <td>{{persona.direccion}}</td>
+                          <td>{{persona.numero}}</td>
+                      </tr> 
+                  </ng-container>
+                  
+                </tbody>
+              </table>
+    </div> 
+  </div>
+</div>

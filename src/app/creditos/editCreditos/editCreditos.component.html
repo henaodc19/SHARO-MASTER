@@ -1,0 +1,29 @@
+<div class="container">
+	<div>
+    <div class="col-md-9">
+        <button type="button" class="btn btn-primary" (click) = "guardarEditCredito()" [routerLink]="['/creditos']" >Guardar</button>
+        <button type="button" class="btn btn-success" [routerLink]="['/creditos']">Regresar</button>
+        <h3>Propietario: {{edit.nombre}} {{edit.apellido}}</h3>
+    </div>
+	<table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Identificacion</th>
+        <th>Direccion</th>
+        <th>Numero</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+                <td><input type="email" class="form-control" [(ngModel)] = "edit.nombre"/></td>
+                <td><input type="email" class="form-control" [(ngModel)] = "edit.apellido"/></td>
+                <td><input type="email" class="form-control" [(ngModel)] = "edit.identificacion"/></td>
+                <td><input type="email" class="form-control" [(ngModel)] = "edit.direccion"/></td>
+                <td><input type="email" class="form-control" [(ngModel)] = "edit.numero"/></td>
+            </tr>  
+                                
+      </tbody>
+    </table>
+</div>

@@ -1,0 +1,114 @@
+
+<div class="container">
+	<div>
+    <div class="col-md-9">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingAbono">Ingresar Abono</button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ingCompra">Ingresar Compra</button>
+        <h3>Propietario del credito - {{credito.nombre}} {{credito.apellido}}</h3>
+        <u><p *ngIf="total > 200000" class="text-danger">Este credito sobrepasa el limite de valor para compras, ¡Ojo tener en cuenta!</p></u>
+    </div>
+    <div class="col-md-3" >
+      <h2 *ngIf="total > 200000" class="text-danger">Saldo = $ {{total | number:'1.0'}}</h2>
+      <h2 *ngIf="total <= 200000" class="text-info">Saldo = $ {{total | number:'1.0'}}</h2>
+    </div>
+	<table class="table table-striped table-hover">
+    <thead>
+      <tr>
+				<th>Fecha</th>
+        <th>Descripcion</th>
+        <th>Valor compra</th>
+				<th>Valor Abono</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let abono of credito.abonoCompra">
+            <tr>
+                <td>{{abono.id | date:"dd/MM/yy hh:mm:ss"}}</td>
+                <td>{{abono.descripcion}}</td>
+                <td>{{abono.vlr_compra | number:'1.0'}}</td>
+                <td>{{abono.vlr_abono | number:'1.0'}}</td>
+                <button type="button" class="btn btn-info" [routerLink]="['/compraAbono-edit', abono.id]">
+                <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </tr>  
+        </ng-container>
+                                
+      </tbody>
+    </table>
+</div>
+<!-- Modal para ingresar abono -->
+<div class="modal fade" id="ingAbono" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Realizar Abono</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4">
+              <label>Descripcion Abono
+                  <input type="text" class="form-control" [(ngModel)] = "abonoCompra.descripcion"/>
+               </label>
+            </div>
+            <div class="col-md-4">
+              <label>Valor del Abono
+                  <input type="email" class="form-control" [(ngModel)] = "abonoCompra.vlr_abono"/>
+              </label>
+            </div>
+            <div class="col-md-4">
+              <label>Fecha movimiento
+                  <input type="email" class="form-control" readonly="readonly" [(ngModel)] = "fech"/>
+              </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click) = "guardarAbono()">
+          Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- Modal para ingresar compra -->
+  <div class="modal fade" id="ingCompra" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Realizar Abono</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4">
+              <label>Descripcion Compra
+                  <input type="email" class="form-control" [(ngModel)] = "abonoCompra.descripcion"/>
+               </label>
+            </div>
+            <div class="col-md-4">
+              <label>Valor de la compra
+                  <input type="email" class="form-control" [(ngModel)] = "abonoCompra.vlr_compra"/>
+              </label>
+            </div>
+            <div class="col-md-4">
+              <label>Fecha movimiento
+                  <input type="email" class="form-control" readonly="readonly" [(ngModel)] = "edit.saldoCredito"/>
+              </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click) = "guardarCompra()">
+          Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+
+  
+ 
