@@ -27,8 +27,9 @@ export class CompraAbonoComponent {
   estadoCredito;
   estadoCreditoSegundoBucle;
   subTotalCreditoSegundoBucle;
-  estadoCreditoTercerBucle
-  subTotalCreditoTercerBucle
+  estadoCreditoTercerBucle;
+  subTotalCreditoTercerBucle;
+  idSegundoBucle;
   
   constructor(private creditosServicios: creditosServicios,private route: ActivatedRoute, private afDB: AngularFireDatabase){
     this.id = this.route.snapshot.params['id'];
@@ -44,6 +45,7 @@ export class CompraAbonoComponent {
         this.credito = credito;
         this.credit = Object.keys(this.credito.abonoCompra).map((key) => this.credito.abonoCompra[key]);
         this.credito.abonoCompra = this.credit;
+        this.total = 0;
 
         for (var i in this.credito.abonoCompra) {
           this.idEntrada = this.credito.abonoCompra[i].id;
@@ -62,6 +64,7 @@ export class CompraAbonoComponent {
             this.pruebaServicio = this.afDB.database.ref('creditos').child(this.id).child('abonoCompra').child(this.idEntrada);
             this.pruebaServicio.on('value', snap =>{this.estadoCreditoSegundoBucle = snap.val().estado});
             this.pruebaServicio.on('value', snap =>{this.subTotalCreditoSegundoBucle = snap.val().subTotal});
+            this.pruebaServicio.on('value', snap =>{this.idSegundoBucle = snap.val().id});
 
              if(this.credito.abonoCompra[i].vlr_abono >= this.credito.abonoCompra[a].vlr_compra && this.estadoCreditoSegundoBucle == 'vig' && this.estadoCredito == 'vig'){
                this.cambioBD = this.afDB.database.ref('creditos').child(this.id).child('abonoCompra').child(this.credito.abonoCompra[i]).child('estado');
@@ -72,11 +75,13 @@ export class CompraAbonoComponent {
                this.total = this.total - this.credito.abonoCompra[i].vlr_abono;
              }
              if(this.credito.abonoCompra[i].vlr_abono <= this.credito.abonoCompra[a].subTotal && this.estadoCreditoSegundoBucle == 'abo' && this.estadoCredito == 'vig'){
+               this.idEntradaCompra = this.credito.abonoCompra[a].id;
+               this.idEntradaAbono = this.credito.abonoCompra[i].id; 
                this.nuevoSubTotal = this.credito.abonoCompra[a].subTotal
-               this.cambioBD = this.afDB.database.ref('creditos').child(this.id).child('abonoCompra').child(this.credito.abonoCompra[i]).child('subTotal');
+               this.cambioBD = this.afDB.database.ref('creditos').child(this.id).child('abonoCompra').child(this.idEntradaCompra).child('subTotal');
                this.cambioBD.set(this.nuevoSubTotal - this.credito.abonoCompra[i].vlr_abono);
                this.total = this.total - this.credito.abonoCompra[i].vlr_abono;
-               this.cambioBD = this.afDB.database.ref('creditos').child(this.id).child('abonoCompra').child(this.credito.abonoCompra[i]).child('estado');
+               this.cambioBD = this.afDB.database.ref('creditos').child(this.id).child('abonoCompra').child(this.idEntradaAbono).child('estado');
                this.cambioBD.set('pag');
              }
              if(this.credito.abonoCompra[i].vlr_abono <= this.credito.abonoCompra[a].vlr_compra && this.estadoCreditoSegundoBucle == 'vig' && this.estadoCredito == "vig"){
@@ -125,7 +130,7 @@ export class CompraAbonoComponent {
         this.idEntrada = this.credito.abonoCompra[d].id;
         this.pruebaServicio = this.afDB.database.ref('creditos').child(this.id).child('abonoCompra').child(this.idEntrada);
         this.pruebaServicio.on('value', snap =>{this.estadoCreditoTercerBucle = snap.val().estado});
-        this.pruebaServicio.on('value', snap =>{this.subTotalCreditoTercerBucle = snap.val().estado});
+        this.pruebaServicio.on('value', snap =>{this.subTotalCreditoTercerBucle = snap.val().subTotal});
 
          if(this.credito.abonoCompra[d].vlr_compra != null && this.estadoCreditoTercerBucle == 'vig'){
            this.idEntradaCompra = this.credito.abonoCompra[d].id;
@@ -138,7 +143,7 @@ export class CompraAbonoComponent {
            this.cambioBD.set(this.nuevoSubTotal - this.diferencia);
            this.diferencia = 0;
          }
-         if(this.credito.abonoCompra[d].vlr_compra != null && this.estadoCreditoTercerBucle == 'abo' && this.subTotalCreditoTercerBucle >= this.diferencia){
+         if(this.credito.abonoCompra[d].vlr_compra != null && this.estadoCreditoTercerBucle == 'abo' && this.subTotalCreditoTercerBucle >= this.diferencia && this.diferencia != 0){
            this.nuevoSubTotal = this.credito.abonoCompra[d].subTotal
            this.idEntradaCompra = this.credito.abonoCompra[d].id;
            this.cambioBD = this.afDB.database.ref('creditos').child(this.id).child('abonoCompra').child(this.idEntradaCompra).child('subTotal');
@@ -200,6 +205,7 @@ export class CompraAbonoComponent {
   guardarAbono(){
     console.log("putaaa");
     this.abonoCompra.id = Date.now();
+    this.abonoCompra.estado = 'vig';
     this.creditosServicios.guardarAbonoCompra(this.abonoCompra,this.credito);
     alert("Abono guardado satisfactoriamente");
     this.abonoCompra={};
@@ -223,6 +229,8 @@ export class CompraAbonoComponent {
 
   guardarCompra(){
     this.abonoCompra.id = Date.now();
+    this.abonoCompra.estado = 'vig';
+    this.abonoCompra.subTotal = 0;
     this.creditosServicios.guardarAbonoCompra(this.abonoCompra,this.credito);
     alert("Abono guardado satisfactoriamente");
     this.abonoCompra={};
